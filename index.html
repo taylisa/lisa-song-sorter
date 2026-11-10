@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LISA SONG SORTER</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f8f6f5;
+    color: #292525;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 25px;
+    text-align: center;
+}
+
+.small-title {
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: #a18b8b;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-family: Georgia, serif;
+    font-size: 46px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin: 20px 0 10px;
+}
+
+.subtitle {
+    color: #817777;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.line {
+    width: 45px;
+    height: 1px;
+    background: #c5a6a6;
+    margin: 35px auto;
+}
+
+button {
+    background: #292525;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.progress {
+    width: 100%;
+    height: 3px;
+    background: #e9dfdd;
+    margin: 25px 0;
+}
+
+.progress-fill {
+    height: 3px;
+    width: 0%;
+    background: #a98289;
+    transition: width 0.3s;
+}
+
+.songs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 35px 0;
+}
+
+.song-card {
+    background: white;
+    border: 1px solid #eee5e3;
+    padding: 30px 15px;
+    min-height: 190px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 25px;
+}
+
+.song-card h2 {
+    font-family: Georgia, serif;
+    font-size: 23px;
+    font-weight: normal;
+    overflow-wrap: anywhere;
+}
+
+.song-card button {
+    width: 100%;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin: 25px 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    color: #817777;
+    letter-spacing: 1px;
+}
+
+.dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+#ranking {
+    list-style: none;
+    padding: 0;
+    max-width: 500px;
+    margin: 30px auto;
+    text-align: left;
+}
+
+#ranking li {
+    background: white;
+    border-bottom: 1px solid #eee5e3;
+    border-left: 5px solid;
+    padding: 15px;
+    font-family: Georgia, serif;
+    font-size: 16px;
+}
+
+#ranking li span {
+    color: #a18b8b;
+    margin-right: 15px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+}
+
+@media (max-width: 550px) {
+    .container {
+        margin: 45px auto;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    .songs {
+        gap: 10px;
+    }
+
+    .song-card {
+        padding: 20px 8px;
+    }
+
+    .song-card h2 {
+        font-size: 17px;
+    }
+
+    .legend {
+        gap: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HOME -->
+
+    <section id="home">
+
+        <p class="small-title">A personal music ranking</p>
+
+        <h1>LISA SONG SORTER</h1>
+
+        <p class="subtitle">
+            One artist. Many favorites. One winner.
+        </p>
+
+        <div class="line"></div>
+
+        <button id="startButton">START SORTING</button>
+
+    </section>
+
+
+    <!-- GAME -->
+
+    <section id="game" class="hidden">
+
+        <p class="small-title">LISA SONG SORTER</p>
+
+        <h1>THIS OR THAT?</h1>
+
+        <p class="subtitle">Which song do you prefer?</p>
+
+        <p id="progressText" class="small-title"></p>
+
+        <div class="progress">
+            <div id="progressFill" class="progress-fill"></div>
+        </div>
+
+        <div class="songs">
+
+            <div class="song-card">
+                <h2 id="songLeft"></h2>
+                <button id="chooseLeft">CHOOSE</button>
+            </div>
+
+            <div class="song-card">
+                <h2 id="songRight"></h2>
+                <button id="chooseRight">CHOOSE</button>
+            </div>
+
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <span class="dot" style="background:#A98289"></span>
+                LALISA
+            </div>
+
+            <div class="legend-item">
+                <span class="dot" style="background:#A8A1B5"></span>
+                COLLABS
+            </div>
+
+            <div class="legend-item">
+                <span class="dot" style="background:#D68A45"></span>
+                ALTER EGO
+            </div>
+
+            <div class="legend-item">
+                <span class="dot" style="background:#B94B4B"></span>
+                PRESS PLAY
+            </div>
+        </div>
+
+        <p class="subtitle">CHOOSE YOUR FAVORITE</p>
+
+    </section>
+
+
+    <!-- RESULTS -->
+
+    <section id="results" class="hidden">
+
+        <p class="small-title">YOUR PERSONAL RANKING</p>
+
+        <h1>YOUR LISA TOP 28</h1>
+
+        <p class="subtitle">Every song has its place.</p>
+
+        <div class="line"></div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <span class="dot" style="background:#A98289"></span>
+                LALISA
+            </div>
+
+            <div class="legend-item">
+                <span class="dot" style="background:#A8A1B5"></span>
+                COLLABS
+            </div>
+
+            <div class="legend-item">
+                <span class="dot" style="background:#D68A45"></span>
+                ALTER EGO
+            </div>
+
+            <div class="legend-item">
+                <span class="dot" style="background:#B94B4B"></span>
+                PRESS PLAY
+            </div>
+        </div>
+
+        <ol id="ranking"></ol>
+<button id="shareButton">SHARE MY RESULTS</button>
+
+<p id="shareMessage" class="subtitle"></p>
+        <button id="restartButton">START AGAIN</button>
+
+    </section>
+
+</div>
+
+
+<script>
+
+// COLORS
+
+const colors = {
+    lalisa: "#A98289",
+    collabs: "#A8A1B5",
+    alter: "#D68A45",
+    press: "#B94B4B"
+};
+
+
+// ALL 28 SONGS
+
+const songs = [
+
+    { name: "LALISA", color: colors.lalisa },
+    { name: "MONEY", color: colors.lalisa },
+
+    { name: "SG", color: colors.collabs },
+    { name: "SHOONG!", color: colors.collabs },
+
+    { name: "Born Again", color: colors.alter },
+    { name: "Rockstar", color: colors.alter },
+    { name: "Elastigirl", color: colors.alter },
+    { name: "Thunder", color: colors.alter },
+    { name: "New Woman", color: colors.alter },
+    { name: "FXCK UP THE WORLD", color: colors.alter },
+    { name: "Rapunzel", color: colors.alter },
+    { name: "Moonlit Floor (Kiss Me)", color: colors.alter },
+    { name: "When I'm With You", color: colors.alter },
+    { name: "BADGRRRL", color: colors.alter },
+    { name: "Lifestyle", color: colors.alter },
+    { name: "Chill", color: colors.alter },
+    { name: "Dream", color: colors.alter },
+    { name: "FXCK UP THE WORLD (Vixi Solo Version)", color: colors.alter },
+    { name: "Rapunzel (Kiki Solo Version)", color: colors.alter },
+
+    { name: "Priceless", color: colors.collabs },
+    { name: "Bad Angel", color: colors.collabs },
+    { name: "Goals", color: colors.collabs },
+
+    { name: "SaWaDiKa", color: colors.press },
+    { name: "V12", color: colors.press },
+    { name: "Cobra", color: colors.press },
+    { name: "Tarantino", color: colors.press },
+    { name: "Cut U Off", color: colors.press },
+    { name: "Sweat", color: colors.press }
+
+];
+
+
+// GAME ELEMENTS
+
+const home = document.querySelector("#home");
+const game = document.querySelector("#game");
+const results = document.querySelector("#results");
+
+const songLeft = document.querySelector("#songLeft");
+const songRight = document.querySelector("#songRight");
+
+const chooseLeft = document.querySelector("#chooseLeft");
+const chooseRight = document.querySelector("#chooseRight");
+
+const progressText = document.querySelector("#progressText");
+const progressFill = document.querySelector("#progressFill");
+
+const ranking = document.querySelector("#ranking");
+
+
+// GAME VARIABLES
+
+let shuffledSongs = [];
+let sortedSongs = [];
+
+let currentIndex = 0;
+let currentSong = {};
+
+let low = 0;
+high = 0;
+middle = 0;
+
+
+// START GAME
+
+function startGame() {
+
+    home.classList.add("hidden");
+    results.classList.add("hidden");
+    game.classList.remove("hidden");
+
+    shuffledSongs = [...songs];
+
+    for (let i = shuffledSongs.length - 1; i > 0; i--) {
+
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [shuffledSongs[i], shuffledSongs[j]] =
+        [shuffledSongs[j], shuffledSongs[i]];
+
+    }
+
+    sortedSongs = [shuffledSongs[0]];
+
+    currentIndex = 1;
+    currentSong = shuffledSongs[currentIndex];
+
+    low = 0;
+    high = sortedSongs.length - 1;
+
+    showComparison();
+
+}
+
+
+// SHOW TWO SONGS
+
+function showComparison() {
+
+    if (currentIndex >= shuffledSongs.length) {
+        showResults();
+        return;
+    }
+
+    middle = Math.floor((low + high) / 2);
+
+    const opponent = sortedSongs[middle];
+
+    songLeft.textContent = currentSong.name;
+    songRight.textContent = opponent.name;
+
+    chooseLeft.style.backgroundColor = currentSong.color;
+    chooseRight.style.backgroundColor = opponent.color;
+
+    progressText.textContent =
+        "SONG " + (currentIndex + 1) + " OF " + songs.length;
+
+    progressFill.style.width =
+        (currentIndex / songs.length * 100) + "%";
+
+}
+
+
+// CHOOSE LEFT
+
+function chooseLeftSong() {
+
+    high = middle - 1;
+
+    nextStep();
+
+}
+
+
+// CHOOSE RIGHT
+
+function chooseRightSong() {
+
+    low = middle + 1;
+
+    nextStep();
+
+}
+
+
+// NEXT COMPARISON
+
+function nextStep() {
+
+    if (low > high) {
+
+        sortedSongs.splice(low, 0, currentSong);
+
+        currentIndex++;
+
+        if (currentIndex >= shuffledSongs.length) {
+            showResults();
+            return;
+        }
+
+        currentSong = shuffledSongs[currentIndex];
+
+        low = 0;
+        high = sortedSongs.length - 1;
+
+    }
+
+    showComparison();
+
+}
+
+
+// SHOW RESULTS
+
+function showResults() {
+
+    game.classList.add("hidden");
+    results.classList.remove("hidden");
+
+    renderRanking();
+
+}
+
+
+function renderRanking() {
+
+    ranking.innerHTML = "";
+
+    sortedSongs.forEach(function(song, index) {
+
+        const item = document.createElement("li");
+        const number = document.createElement("span");
+
+        item.style.borderLeftColor = song.color;
+
+        number.textContent = "#" + (index + 1);
+
+        item.appendChild(number);
+        item.appendChild(document.createTextNode(song.name));
+
+        ranking.appendChild(item);
+
+    });
+
+}
+
+
+// CREATE SHARE LINK
+
+document.querySelector("#shareButton")
+    .addEventListener("click", async function() {
+
+        const order = sortedSongs.map(function(song) {
+            return songs.findIndex(function(item) {
+                return item.name === song.name;
+            });
+        });
+
+        const shareURL =
+            window.location.href.split("#")[0] +
+            "#rank=" + encodeURIComponent(JSON.stringify(order));
+
+        try {
+
+            await navigator.clipboard.writeText(shareURL);
+
+            document.querySelector("#shareMessage").textContent =
+                "Your ranking link has been copied!";
+
+        } catch (error) {
+
+            window.prompt("Copy your ranking link:", shareURL);
+
+        }
+
+    });
+
+
+// LOAD A SHARED RANKING
+
+function loadSharedRanking() {
+
+    if (!window.location.hash.startsWith("#rank=")) {
+        return;
+    }
+
+    try {
+
+        const data = decodeURIComponent(
+            window.location.hash.substring(6)
+        );
+
+        const order = JSON.parse(data);
+
+        const valid =
+            Array.isArray(order) &&
+            order.length === songs.length &&
+            order.every(function(index) {
+                return Number.isInteger(index) &&
+                    index >= 0 &&
+                    index < songs.length;
+            }) &&
+            new Set(order).size === songs.length;
+
+        if (!valid) return;
+
+        sortedSongs = order.map(function(index) {
+            return songs[index];
+        });
+
+        home.classList.add("hidden");
+        game.classList.add("hidden");
+        results.classList.remove("hidden");
+
+        renderRanking();
+
+    } catch (error) {
+
+        console.log("Invalid ranking link");
+
+    }
+
+}
+
+loadSharedRanking();
+
+// BUTTONS
+
+document.querySelector("#startButton")
+    .addEventListener("click", startGame);
+
+chooseLeft.addEventListener("click", chooseLeftSong);
+
+chooseRight.addEventListener("click", chooseRightSong);
+
+document.querySelector("#restartButton")
+    .addEventListener("click", function() {
+
+        results.classList.add("hidden");
+        home.classList.remove("hidden");
+
+    });
+
+</script>
+
+</body>
+</html>
